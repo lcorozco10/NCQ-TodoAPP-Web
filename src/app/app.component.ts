@@ -11,7 +11,7 @@ import { initFlowbite } from 'flowbite';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'TodoApp';
+  title = 'NCQ Todo App';
   ngOnInit(): void {
     initFlowbite();
   }
