@@ -13,6 +13,7 @@ import { IModal } from '../../utils/modal-service/modal.model';
 export class ModalComponent extends IModal {
 
   @Input() message = '';
+  @Input() errors: string[] = [];
   @Input() yesTextButton = '';
   @Input() noTextButton = '';
   @Output() yesNoButtonEvent = new EventEmitter<boolean>();
@@ -20,6 +21,7 @@ export class ModalComponent extends IModal {
 
   override onInjectInputs(inputs: any): void {
     this.message = inputs.title;
+    this.errors = inputs.errors ?? [];
   }
 
   clickEvent(value: boolean) {

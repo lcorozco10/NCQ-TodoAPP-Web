@@ -1,13 +1,13 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
 
   <app-tools></app-tools>
-  <button type="button" class="btn btn-default" (click)="onCreateModal()">Create modal</button>
+
   <ng-container *ngIf="tasks != null">
     <app-todo-table [Tasks]="tasks"></app-todo-table>
   </ng-container>
 
   <app-todo-edit-dialog></app-todo-edit-dialog>
-  <!-- <app-todo-create-dialog></app-todo-create-dialog> -->
+  <app-todo-create-dialog></app-todo-create-dialog>
 
 
   <div *ngIf="isLoading$ | async" class="w-full h-full fixed block top-0 left-0 bg-black opacity-75 z-50">

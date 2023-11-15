@@ -19,8 +19,8 @@ export class ApiInterceptor implements HttpInterceptor {
         this.spinnerService.set(false);
       }),
       catchError((error: any) => {
-        console.log(error);
-        this.modalService?.open(ModalComponent, { title: error.error.message });
+        let errorText = error.error.message;
+        this.modalService?.open(ModalComponent, { title: errorText, errors: error.error.errors });
         throw error;
       })
     );
