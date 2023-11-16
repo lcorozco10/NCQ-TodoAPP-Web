@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CollboratorModel } from '../../Models/Collaborator.model';
-import { CreateUpdateTask, Task } from '../../Models/TaskModel';
+import { Task } from '../../Models/TaskModel';
 import { Modal } from 'flowbite';
 import { FormControl, ReactiveFormsModule, FormGroup } from '@angular/forms';
 
@@ -48,8 +48,6 @@ export class TodoEditDialogComponent implements OnInit, OnChanges {
   @Input() taskSelected: Task | undefined;
 
   @Output() editEvent = new EventEmitter<Task>();
-
-  formControl = new FormControl('');
 
   createTaskForm = new FormGroup({
     id: new FormControl(''),

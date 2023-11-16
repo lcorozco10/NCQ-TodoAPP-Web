@@ -38,12 +38,12 @@ export class ToolsComponent {
       })
   }
   open() {
-    const modal = new Modal(document.getElementById('crud-modal'));
+    const modal = new Modal(document.getElementById('crud-modal'), { backdrop: 'static' });
     modal.show();
   }
 
   openCreate() {
-    const modal = new Modal(document.getElementById('createUserModal'));
+    const modal = new Modal(document.getElementById('createUserModal'), { backdrop: 'static' });
     modal.show();
   }
   Onclose() {

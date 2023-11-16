@@ -63,8 +63,8 @@ export class TodoPageComponent implements OnInit {
   }
 
   onSave(task: CreateUpdateTask) {
-    console.log(task);
-    //this.tasksService.create(task).subscribe(data => console.log(data));
+    this.tasksService.create(task).subscribe(data =>
+      this.tasksService.getAllTask().subscribe(data => this.tasks2 = data.data));
     const modal = new Modal(document.getElementById('createUserModal'));
     modal.hide();
   }
