@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IModal } from '../../utils/modal-service/modal.model';
+import { Modal } from 'flowbite';
 //import { Modal } from 'flowbite';
 
 @Component({
@@ -12,20 +13,17 @@ import { IModal } from '../../utils/modal-service/modal.model';
 })
 export class ModalComponent extends IModal {
 
-  @Input() message = '';
-  @Input() errors: string[] = [];
-  @Input() yesTextButton = '';
-  @Input() noTextButton = '';
-  @Output() yesNoButtonEvent = new EventEmitter<boolean>();
-  @Output() open = new EventEmitter<boolean>();
+  message = '';
+  errors: string[] = [];
+  yesTextButton = '';
+  noTextButton = '';
+
 
   override onInjectInputs(inputs: any): void {
     this.message = inputs.title;
+    this.yesTextButton = inputs.yesTextButton;
+    this.noTextButton = inputs.noTextButton;
     this.errors = inputs.errors ?? [];
-  }
-
-  clickEvent(value: boolean) {
-    this.yesNoButtonEvent.emit(value);
   }
 
   save(): void {

@@ -1,8 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task } from '../../Models/TaskModel';
 import { StatusTaskPipe } from "../../utils/pipes/status-pipe";
 import { PriorityTaskPipe } from "../../utils/pipes/priority-pipe";
+import { Observable } from 'rxjs';
+import { Modal } from 'flowbite';
 
 @Component({
   selector: 'app-todo-table',
@@ -13,7 +15,8 @@ import { PriorityTaskPipe } from "../../utils/pipes/priority-pipe";
 })
 export class TodoTableComponent {
 
-  @Input() Tasks: Task[] | undefined;
+  @Input() Tasks: Observable<Task[]> | undefined;
+  @Output() deleteEvent = new EventEmitter<string>();
 
   setStatusIcon(status: number): string {
     return status == 0
@@ -29,5 +32,14 @@ export class TodoTableComponent {
       : priority == 1
         ? 'bg-orange-500'
         : 'bg-green-500'
+  }
+
+  onDelete(id: string) {
+    this.deleteEvent.emit(id)
+  }
+
+  OnEditModal() {
+    const modal = new Modal(document.getElementById('editUserModal'));
+    modal.show();
   }
 }

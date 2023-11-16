@@ -2,6 +2,7 @@ import { ComponentRef } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { IModal } from "./modal.model";
 import { ModalContainerComponent } from "./modal-container.component";
+import { Modal } from "flowbite";
 
 export class ModalRef {
 
@@ -29,6 +30,8 @@ export class ModalRef {
   }
 
   private destroy$(): void {
+    //const modal = new Modal(document.getElementById('popup-modal'));
+    //modal?.hide();
     this.modal.destroy();
     this.modalContainer.destroy();
     this.result$.complete();

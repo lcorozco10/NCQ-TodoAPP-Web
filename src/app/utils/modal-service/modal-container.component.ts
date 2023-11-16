@@ -16,8 +16,6 @@ export class ModalContainerComponent {
 
   createModal<T extends IModal>(component: Type<T>): ComponentRef<T> {
     this.modalContainer?.clear();
-
     return this.modalContainer.createComponent(component);
   }
-
 }

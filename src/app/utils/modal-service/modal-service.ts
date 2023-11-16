@@ -33,16 +33,21 @@ export class ModalService {
     }
 
     const modal = new Modal(document.getElementById('popup-modal'));
+    modal?.show();
+    /*if (document.getElementById('popup-modal')) {
+      const modal = new Modal(document.getElementById('popup-modal'));
+      modal?.show();
+    }*/
+
     const icon = document.getElementById('close-icon');
 
     icon?.addEventListener('click', () => {
       modal.hide();
     });
 
-    modal.show();
+    //modal?.show();
 
     const modalRef = new ModalRef(this.modalContainerFactory, modalComponentRef);
-
     return modalRef;
   }
 

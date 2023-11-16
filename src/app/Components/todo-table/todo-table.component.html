@@ -23,7 +23,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of Tasks"
+    <tr *ngFor="let item of Tasks | async"
       class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
       <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
         <div class="ps-3">
@@ -50,10 +50,10 @@
       </td>
       <td class="px-6 py-4">
         <!-- Modal toggle -->
-        <a href="#" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal"
+        <a href="#" type="button" (click)="OnEditModal()"
           class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar &nbsp; </a>
 
-        <a href="#" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal"
+        <a href="#" type="button" (click)="onDelete(item.id)"
           class="font-medium text-blue-600 dark:text-blue-500 hover:underline"> Eliminar</a>
       </td>
     </tr>

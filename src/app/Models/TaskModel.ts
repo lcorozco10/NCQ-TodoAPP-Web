@@ -11,7 +11,7 @@ export interface Task {
 }
 
 export interface TaskFilter {
-  collaboratorI?: string;
+  collaboratorId?: string;
   status?: number;
   pripriorityCode?: number;
   fromDate?: Date;
