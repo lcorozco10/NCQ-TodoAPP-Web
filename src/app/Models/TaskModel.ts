@@ -14,16 +14,16 @@ export interface TaskFilter {
   collaboratorId?: string;
   status?: number;
   pripriorityCode?: number;
-  fromDate?: Date;
-  toDate?: Date;
+  fromDate?: string;
+  toDate?: string;
 }
 
 export interface CreateUpdateTask {
   description: string,
   status: number,
   pripriorityCode: number
-  startDate: Date,
-  endDate: Date,
+  startDate: string,
+  endDate: string,
   collaboratorId: string,
   notes?: string,
 }

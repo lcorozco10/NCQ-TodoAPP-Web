@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { CollboratorModel } from '../../Models/Collaborator.model';
 import { CreateUpdateTask } from '../../Models/TaskModel';
+import { Modal } from 'flowbite';
 
 @Component({
   selector: 'app-todo-create-dialog',
@@ -22,9 +23,14 @@ export class TodoCreateDialogComponent {
       description: "a test",
       status: 1,
       pripriorityCode: 0,
-      startDate: new Date(2018, 4, 8, 10, 13, 41, 12),
-      endDate: new Date(2018, 4, 8, 10, 13, 41, 12),
+      startDate: "",
+      endDate: "",
       collaboratorId: "f6c25425-c52e-4022-a82f-0241537767aa",
     });
+  }
+
+  OnCloseModal() {
+    const modal = new Modal(document.getElementById('createUserModal'));
+    modal.hide();
   }
 }

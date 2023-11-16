@@ -11,7 +11,7 @@ import { ModalService } from '../../utils/modal-service/modal-service';
 import { TasksService } from '../../Services/tasks.service';
 import { CollaboratorsService } from '../../Services/collaborators.service';
 import { CollboratorModel } from '../../Models/Collaborator.model';
-import { Observable, finalize, map } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Modal } from 'flowbite';
 
 @Component({
@@ -30,10 +30,12 @@ import { Modal } from 'flowbite';
 export class TodoPageComponent implements OnInit {
 
   tasks: Observable<Task[]> | undefined;
-  collboarators: Observable<CollboratorModel[]> | undefined;
+  tasks2: Task[] | undefined;
   collboarators2: CollboratorModel[] | undefined;
   isLoading$: boolean = false;
   taskLoaded: boolean = false;
+  taskSelected: Task | undefined;
+  taskSelected$: BehaviorSubject<Task | undefined | null> = new BehaviorSubject<Task | undefined | null>(null);
 
   constructor(
     private tasksService: TasksService,
@@ -45,24 +47,19 @@ export class TodoPageComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // Get all tasks
-    this.tasks = this.tasksService.getAllTask()
-      .pipe(map(data => data.data),
-        finalize(() => this.taskLoaded = true));
+    // Get all tasks    
+    this.tasksService.getAllTask().subscribe(data => this.tasks2 = data.data)
 
-    // Get all collaborators
-    this.collboarators = this.collaboratorsService.getAll()
-      .pipe(map(data => data.data));
+    // Get all collaborators   
     this.collaboratorsService.getAll().subscribe(data => this.collboarators2 = data.data)
-
     this.spinnerService.loading$.subscribe(x => this.isLoading$ = x);
+
   }
 
   onFilter(data: TaskFilter) {
     const modal = new Modal(document.getElementById('crud-modal'));
     modal.hide();
-    this.tasks = this.tasksService.getAllTask(data)
-      .pipe(map(data => data.data));
+    this.tasksService.getAllTask(data).subscribe(data => this.tasks2 = data.data)
   }
 
   onSave(task: CreateUpdateTask) {
@@ -72,10 +69,25 @@ export class TodoPageComponent implements OnInit {
     modal.hide();
   }
 
-  onEdit(task: CreateUpdateTask) {
-    console.log(task);
-    //this.tasksService.edit("63c54f7e-eef4-47d0-ff33-08dbe62ece5c", task)
-    //.subscribe(data => console.log(data));
+  onEditClickEvent(task: Task) {
+    this.taskSelected = task;
+    const modal = new Modal(document.getElementById('editUserModal'), { backdrop: 'static' });
+    modal.show();
+  }
+
+  onEdit(task: Task) {
+    this.tasksService.edit(task.id, {
+      collaboratorId: task.collaboratorId,
+      description: task.description,
+      status: parseInt(task.status.toString()),
+      notes: task.notes,
+      pripriorityCode: parseInt(task.pripriorityCode.toString()),
+      endDate: new Date(task.endDate).toJSON(),
+      startDate: new Date(task.startDate).toJSON(),
+    } as CreateUpdateTask)
+      .subscribe(data => {
+        this.tasksService.getAllTask().subscribe(data => this.tasks2 = data.data)
+      });
     const modal = new Modal(document.getElementById('editUserModal'));
     modal.hide();
   }

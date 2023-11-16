@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CollboratorModel } from '../../Models/Collaborator.model';
-import { Observable } from 'rxjs';
 import { TaskFilter } from '../../Models/TaskModel';
 import { Modal } from 'flowbite';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tools',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './tools.component.html',
   styleUrl: './tools.component.scss'
 })
@@ -17,26 +17,41 @@ export class ToolsComponent {
   @Input() collboarators: CollboratorModel[] | undefined;
   @Output() filterEvent = new EventEmitter<TaskFilter>();
 
+  collaboratorId = new FormControl();
+  stateId = new FormControl();
+  priorityId = new FormControl();
+  startDate = new FormControl('');
+  endDate = new FormControl('');
+
   constructor() {
   }
 
-  onFilter(e: any) {
+  onFilter(e: any, startDate: string, endDate: string) {
     e.preventDefault();
     this.filterEvent.emit(
       {
-        status: 1,
-        pripriorityCode: 0,
-        fromDate: new Date(2018, 4, 8, 10, 13, 41, 12),
-        toDate: new Date(2018, 4, 8, 10, 13, 41, 12),
-        collaboratorId: "f6c25425-c52e-4022-a82f-0241537767aa",
+        status: this.stateId.value,
+        pripriorityCode: this.priorityId.value,
+        fromDate: new Date(startDate).toJSON(),
+        toDate: new Date(endDate).toJSON(),
+        collaboratorId: this.collaboratorId.value,
       })
   }
   open() {
     const modal = new Modal(document.getElementById('crud-modal'));
     modal.show();
   }
+
+  openCreate() {
+    const modal = new Modal(document.getElementById('createUserModal'));
+    modal.show();
+  }
   Onclose() {
     const modal = new Modal(document.getElementById('crud-modal'));
     modal.hide();
+  }
+
+  onSearchChange(event: any) {
+    console.log(event);
   }
 }
