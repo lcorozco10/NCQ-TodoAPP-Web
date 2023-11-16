@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TodoTableComponent } from "../todo-table/todo-table.component";
 import { TodoEditDialogComponent } from "../todo-edit-dialog/todo-edit-dialog.component";
@@ -13,6 +13,7 @@ import { CollaboratorsService } from '../../Services/collaborators.service';
 import { CollboratorModel } from '../../Models/Collaborator.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Modal } from 'flowbite';
+import { DeleteModalComponent } from "../delete-modal/delete-modal.component";
 
 @Component({
   selector: 'app-todo-page',
@@ -25,7 +26,9 @@ import { Modal } from 'flowbite';
     TodoEditDialogComponent,
     TodoCreateDialogComponent,
     ToolsComponent,
-    ModalComponent]
+    ModalComponent,
+    DeleteModalComponent
+  ]
 })
 export class TodoPageComponent implements OnInit {
 
@@ -85,15 +88,26 @@ export class TodoPageComponent implements OnInit {
       endDate: new Date(task.endDate).toJSON(),
       startDate: new Date(task.startDate).toJSON(),
     } as CreateUpdateTask)
-      .subscribe(data => {
+      .subscribe(_ => {
         this.tasksService.getAllTask().subscribe(data => this.tasks2 = data.data)
       });
     const modal = new Modal(document.getElementById('editUserModal'));
     modal.hide();
   }
 
-  onDelete(id: string) {
-    console.log(id);
-    // this.tasksService.delete(id).subscribe(data => console.log(data));
+  onDeleteValue(task: Task) {
+    this.taskSelected = task;
+    const modal = new Modal(document.getElementById('delete-modal'), { backdrop: 'static' });
+    modal.show();
+
+  }
+
+  onDeleteOption(option: boolean) {
+    const modal = new Modal(document.getElementById('delete-modal'));
+    modal.hide();
+    if (option && this.taskSelected?.id) {
+      this.tasksService.delete(this.taskSelected?.id)
+        .subscribe(_ => this.tasksService.getAllTask().subscribe(data => this.tasks2 = data.data));
+    }
   }
 }

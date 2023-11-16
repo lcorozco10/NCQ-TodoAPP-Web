@@ -2,15 +2,17 @@
 
   <app-tools [collboarators]="collboarators2" (filterEvent)="onFilter($event)"></app-tools>
 
-  <app-todo-table [Tasks]="tasks2" (deleteEvent)="onDelete($event)"
+  <app-todo-table [Tasks]="tasks2" (deleteEvent)="onDeleteValue($event)"
     (editEvent)="onEditClickEvent($event)"></app-todo-table>
 
   <app-todo-create-dialog [collboarators]="collboarators2" (saveEvent)="onSave($event)"></app-todo-create-dialog>
 
   <app-todo-edit-dialog [collboarators]="collboarators2" (editEvent)="onEdit($event)"
     [taskSelected]="taskSelected"></app-todo-edit-dialog>
-  <ng-container *ngIf="isLoading$">
 
+  <app-delete-modal (clickEvent)="onDeleteOption($event)"></app-delete-modal>
+
+  <ng-container *ngIf="isLoading$">
   </ng-container>
 
 

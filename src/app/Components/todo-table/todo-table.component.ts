@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { Task } from '../../Models/TaskModel';
 import { StatusTaskPipe } from "../../utils/pipes/status-pipe";
 import { PriorityTaskPipe } from "../../utils/pipes/priority-pipe";
-import { Modal } from 'flowbite';
 
 @Component({
   selector: 'app-todo-table',
@@ -15,7 +14,7 @@ import { Modal } from 'flowbite';
 export class TodoTableComponent {
 
   @Input() Tasks: Task[] | undefined;
-  @Output() deleteEvent = new EventEmitter<string>();
+  @Output() deleteEvent = new EventEmitter<Task>();
   @Output() editEvent = new EventEmitter<Task>();
 
   setStatusIcon(status: number): string {
@@ -34,13 +33,11 @@ export class TodoTableComponent {
         : 'bg-green-500'
   }
 
-  onDelete(id: string) {
-    this.deleteEvent.emit(id)
+  onDelete(tassk: Task) {
+    this.deleteEvent.emit(tassk);
   }
 
   OnEditModal(tassk: Task) {
-    this.editEvent.emit(tassk)
-    //const modal = new Modal(document.getElementById('editUserModal'));
-    //modal?.show();
+    this.editEvent.emit(tassk);
   }
 }
