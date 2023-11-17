@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CollboratorModel } from '../../Models/Collaborator.model';
 import { CreateUpdateTask } from '../../Models/TaskModel';
 import { Modal } from 'flowbite';
-import { FormControl, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-todo-create-dialog',
@@ -19,22 +19,32 @@ export class TodoCreateDialogComponent {
 
   createTaskForm = new FormGroup({
     id: new FormControl(''),
-    description: new FormControl(''),
-    collaboratorId: new FormControl(''),
-    status: new FormControl(0),
-    pripriorityCode: new FormControl(0),
-    startDate: new FormControl(),
-    endDate: new FormControl(),
+    description: new FormControl('', Validators.required),
+    collaboratorId: new FormControl('', Validators.required),
+    status: new FormControl('0', Validators.required),
+    pripriorityCode: new FormControl('', Validators.required),
+    startDate: new FormControl(''),
+    endDate: new FormControl(''),
+    notes: new FormControl(''),
   });
 
   onSave(e: any, startDate: string, endDate: string) {
     e.preventDefault();
-    var task = this.createTaskForm.value as CreateUpdateTask;
-    task.startDate = new Date(startDate).toJSON();
-    task.endDate = new Date(endDate).toJSON();
-    task.status = parseInt(task.status.toString());
-    task.pripriorityCode = parseInt(task.pripriorityCode.toString());
-    this.saveEvent.emit(task);
+    if (this.createTaskForm.valid && startDate && startDate) {
+      var task = {
+        description: this.createTaskForm.value.description,
+        collaboratorId: this.createTaskForm.value.collaboratorId,
+        status: this.createTaskForm.value.status ? parseInt(this.createTaskForm.value.status) : 0,
+        pripriorityCode: this.createTaskForm.value.status ? parseInt(this.createTaskForm.value.status) : 0,
+        startDate: new Date(startDate).toJSON(),
+        endDate: new Date(endDate).toJSON(),
+        notes: this.createTaskForm.value.notes
+      } as CreateUpdateTask;
+      this.saveEvent.emit(task);
+    }
+    else {
+      this.createTaskForm.markAllAsTouched();
+    }
   }
 
   OnCloseModal() {

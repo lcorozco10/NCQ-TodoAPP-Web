@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CollboratorModel } from '../../Models/Collaborator.model';
 import { Task } from '../../Models/TaskModel';
 import { Modal } from 'flowbite';
-import { FormControl, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-todo-edit-dialog',
@@ -37,34 +37,48 @@ export class TodoEditDialogComponent implements OnInit, OnChanges {
         id: this.taskSelected?.id,
         description: this.taskSelected?.description,
         collaboratorId: this.taskSelected?.collaboratorId,
-        status: this.taskSelected?.status,
-        pripriorityCode: this.taskSelected?.pripriorityCode,
+        status: this.createTaskForm.value.status,
+        pripriorityCode: this.createTaskForm.value.status,
         startDate: startDateValue,
-        endDate: endDateValue
+        endDate: endDateValue,
+        notes: this.taskSelected?.notes
       });
   }
 
   @Input() collboarators: CollboratorModel[] | undefined;
   @Input() taskSelected: Task | undefined;
-
   @Output() editEvent = new EventEmitter<Task>();
 
   createTaskForm = new FormGroup({
     id: new FormControl(''),
-    description: new FormControl(''),
-    collaboratorId: new FormControl(''),
-    status: new FormControl(0),
-    pripriorityCode: new FormControl(0),
-    startDate: new FormControl(),
-    endDate: new FormControl(),
+    description: new FormControl('', Validators.required),
+    collaboratorId: new FormControl('', Validators.required),
+    status: new FormControl('0', Validators.required),
+    pripriorityCode: new FormControl('', Validators.required),
+    startDate: new FormControl(''),
+    endDate: new FormControl(''),
+    notes: new FormControl(''),
   });
 
   onEdit(e: any, startDate: string, endDate: string) {
     e.preventDefault();
-    var task = this.createTaskForm.value as Task;
-    task.startDate = new Date(startDate);
-    task.endDate = new Date(endDate);
-    this.editEvent.emit(this.createTaskForm.value as Task);
+
+    if (this.createTaskForm.valid && startDate && startDate) {
+      var task = {
+        id: this.createTaskForm.value.id,
+        description: this.createTaskForm.value.description,
+        collaboratorId: this.createTaskForm.value.collaboratorId,
+        status: this.createTaskForm.value.status ? parseInt(this.createTaskForm.value.status) : 0,
+        pripriorityCode: this.createTaskForm.value.status ? parseInt(this.createTaskForm.value.status) : 0,
+        startDate: new Date(startDate),
+        endDate: new Date(endDate),
+        notes: this.createTaskForm.value.notes
+      } as Task;
+      this.editEvent.emit(task);
+    }
+    else {
+      this.createTaskForm.markAllAsTouched();
+    }
   }
 
   OnCloseEditModal() {

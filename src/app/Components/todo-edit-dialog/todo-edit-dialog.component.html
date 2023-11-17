@@ -28,23 +28,30 @@
             <input type="text" name="descriptionEdit" id="descriptionEdit" formControlName="description"
               class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="" required="">
+            <p *ngIf="createTaskForm.controls.description.errors?.['required'] && (createTaskForm.controls.description.touched || createTaskForm.controls.description.dirty)"
+              class="mt-2 text-sm text-red-600 dark:text-red-500">
+              Campo requerido!
+            </p>
           </div>
           <div class="col-span-6 sm:col-span-3">
             <label for="collaboratorIdEdit"
               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Colaborador</label>
             <select id="collaboratorIdEdit" formControlName="collaboratorId"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-              <option selected="">--</option>
+              <option value="" selected="">--</option>
               <option *ngFor="let item of collboarators" [value]="item.id">
                 {{item.name}}
               </option>
             </select>
+            <p *ngIf="createTaskForm.controls.collaboratorId.errors?.['required'] && (createTaskForm.controls.collaboratorId.touched || createTaskForm.controls.collaboratorId.dirty)"
+              class="mt-2 text-sm text-red-600 dark:text-red-500">
+              Campo requerido!
+            </p>
           </div>
           <div class="col-span-6 sm:col-span-3">
             <label for="statusEdit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estado</label>
             <select id="statusEdit" formControlName="status"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-              <option selected="">--</option>
               <option value="0">Pendiente</option>
               <option value="1">En Proceso</option>
               <option value="2">Finalizado</option>
@@ -55,11 +62,15 @@
               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Prioridad</label>
             <select id="priorityCodeEdit" formControlName="pripriorityCode"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-              <option selected="">--</option>
+              <option value="" selected="">--</option>
               <option value="2">Baja</option>
               <option value="1">Media</option>
               <option value="0">Alta</option>
             </select>
+            <p *ngIf="createTaskForm.controls.pripriorityCode.errors?.['required'] && (createTaskForm.controls.pripriorityCode.touched || createTaskForm.controls.pripriorityCode.dirty)"
+              class="mt-2 text-sm text-red-600 dark:text-red-500">
+              Campo requerido!
+            </p>
           </div>
           <div class="col-span-6 sm:col-span-6">
             <label for="datesEdit" class="block mb-3 text-sm font-medium text-gray-900 dark:text-white">Fechas</label>
@@ -75,6 +86,12 @@
                 <input name="startEdit" type="text" id="startEdit" formControlName="startDate" #startDate
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Fecha de inicio">
+                <div>
+                  <p *ngIf="!startDate.value  && (createTaskForm.controls.startDate.touched || createTaskForm.controls.startDate.dirty)"
+                    class="mt-2 text-sm text-red-600 dark:text-red-500" style="position: absolute;">
+                    Campo requerido!
+                  </p>
+                </div>
               </div>
               <span class="mx-4 text-gray-500">to</span>
               <div class="relative">
@@ -88,8 +105,20 @@
                 <input name="endDateEdit" type="text" id="endDateEdit" formControlName="endDate" #endDate
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Fecha Fin">
+                <div>
+                  <p *ngIf="!endDate.value && (createTaskForm.controls.endDate.touched || createTaskForm.controls.endDate.dirty)"
+                    class="mt-2 text-sm text-red-600 dark:text-red-500" style="position: absolute;">
+                    Campo requerido!
+                  </p>
+                </div>
               </div>
             </div>
+          </div>
+          <div class="col-span-6 sm:col-span-6">
+            <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notas</label>
+            <textarea id="description" rows="4" formControlName="notes"
+              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder=""></textarea>
           </div>
         </div>
       </div>

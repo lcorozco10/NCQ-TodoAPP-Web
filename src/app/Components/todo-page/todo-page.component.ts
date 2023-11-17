@@ -11,7 +11,7 @@ import { ModalService } from '../../utils/modal-service/modal-service';
 import { TasksService } from '../../Services/tasks.service';
 import { CollaboratorsService } from '../../Services/collaborators.service';
 import { CollboratorModel } from '../../Models/Collaborator.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Modal } from 'flowbite';
 import { DeleteModalComponent } from "../delete-modal/delete-modal.component";
 
@@ -32,13 +32,10 @@ import { DeleteModalComponent } from "../delete-modal/delete-modal.component";
 })
 export class TodoPageComponent implements OnInit {
 
-  tasks: Observable<Task[]> | undefined;
-  tasks2: Task[] | undefined;
-  collboarators2: CollboratorModel[] | undefined;
+  tasks: Task[] | undefined;
+  collboarators: CollboratorModel[] | undefined;
   isLoading$: boolean = false;
-  taskLoaded: boolean = false;
   taskSelected: Task | undefined;
-  taskSelected$: BehaviorSubject<Task | undefined | null> = new BehaviorSubject<Task | undefined | null>(null);
 
   constructor(
     private tasksService: TasksService,
@@ -48,26 +45,24 @@ export class TodoPageComponent implements OnInit {
   ) {
   }
 
-
   ngOnInit(): void {
     // Get all tasks    
-    this.tasksService.getAllTask().subscribe(data => this.tasks2 = data.data)
+    this.tasksService.getAllTask().subscribe(data => this.tasks = data.data)
 
     // Get all collaborators   
-    this.collaboratorsService.getAll().subscribe(data => this.collboarators2 = data.data)
-    this.spinnerService.loading$.subscribe(x => this.isLoading$ = x);
-
+    this.collaboratorsService.getAll().subscribe(data => this.collboarators = data.data)
+    this.spinnerService.loading$.subscribe(load => this.isLoading$ = load);
   }
 
   onFilter(data: TaskFilter) {
     const modal = new Modal(document.getElementById('crud-modal'));
     modal.hide();
-    this.tasksService.getAllTask(data).subscribe(data => this.tasks2 = data.data)
+    this.tasksService.getAllTask(data).subscribe(data => this.tasks = data.data)
   }
 
   onSave(task: CreateUpdateTask) {
     this.tasksService.create(task).subscribe(data =>
-      this.tasksService.getAllTask().subscribe(data => this.tasks2 = data.data));
+      this.tasksService.getAllTask().subscribe(data => this.tasks = data.data));
     const modal = new Modal(document.getElementById('createUserModal'));
     modal.hide();
   }
@@ -89,7 +84,7 @@ export class TodoPageComponent implements OnInit {
       startDate: new Date(task.startDate).toJSON(),
     } as CreateUpdateTask)
       .subscribe(_ => {
-        this.tasksService.getAllTask().subscribe(data => this.tasks2 = data.data)
+        this.tasksService.getAllTask().subscribe(data => this.tasks = data.data)
       });
     const modal = new Modal(document.getElementById('editUserModal'));
     modal.hide();
@@ -107,7 +102,7 @@ export class TodoPageComponent implements OnInit {
     modal.hide();
     if (option && this.taskSelected?.id) {
       this.tasksService.delete(this.taskSelected?.id)
-        .subscribe(_ => this.tasksService.getAllTask().subscribe(data => this.tasks2 = data.data));
+        .subscribe(_ => this.tasksService.getAllTask().subscribe(data => this.tasks = data.data));
     }
   }
 }
