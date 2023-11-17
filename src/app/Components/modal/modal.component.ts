@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IModal } from '../../utils/modal-service/modal.model';
-import { Modal } from 'flowbite';
-//import { Modal } from 'flowbite';
 
 @Component({
   selector: 'app-modal',
@@ -17,7 +15,6 @@ export class ModalComponent extends IModal {
   errors: string[] = [];
   yesTextButton = '';
   noTextButton = '';
-
 
   override onInjectInputs(inputs: any): void {
     this.message = inputs.title;

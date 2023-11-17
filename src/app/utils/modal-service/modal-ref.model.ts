@@ -30,8 +30,6 @@ export class ModalRef {
   }
 
   private destroy$(): void {
-    //const modal = new Modal(document.getElementById('popup-modal'));
-    //modal?.hide();
     this.modal.destroy();
     this.modalContainer.destroy();
     this.result$.complete();

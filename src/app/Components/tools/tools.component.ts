@@ -51,7 +51,4 @@ export class ToolsComponent {
     modal.hide();
   }
 
-  onSearchChange(event: any) {
-    console.log(event);
-  }
 }

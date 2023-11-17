@@ -11,7 +11,6 @@ import { ModalService } from '../../utils/modal-service/modal-service';
 import { TasksService } from '../../Services/tasks.service';
 import { CollaboratorsService } from '../../Services/collaborators.service';
 import { CollboratorModel } from '../../Models/Collaborator.model';
-import { BehaviorSubject } from 'rxjs';
 import { Modal } from 'flowbite';
 import { DeleteModalComponent } from "../delete-modal/delete-modal.component";
 
